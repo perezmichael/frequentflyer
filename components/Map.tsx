@@ -19,6 +19,18 @@ interface MapProps {
 mapboxgl.accessToken = "pk.eyJ1IjoibWlrZXBlcmV6ZGlnaXRhbCIsImEiOiJjbTd0eDJvOW4xemZpMmtvaG5sa21xbWRrIn0.1wE2ylfT_NeCTKY_IKDlnA";
 console.log("Mapbox Token:", mapboxgl.accessToken);
 
+const mapStyles = {
+  position: 'absolute',
+  left: 0,
+  width: '100%',
+  height: '100%',
+  textRendering: 'optimizelegibility',
+  fontSize: '106.666666666%',
+  WebkitFontSmoothing: 'auto',
+  borderRadius: '0.75rem',
+  overflow: 'hidden',
+} as const;
+
 export default function Map({ restaurants }: MapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -53,11 +65,11 @@ export default function Map({ restaurants }: MapProps) {
   }, [restaurants]);
 
   return (
-    <div>
+    <div className="relative w-full h-full">
       <div 
         ref={mapContainer} 
-        className="h-96 w-full rounded bg-gray-200" 
-        style={{ height: "400px", width: "100%" }}
+        style={mapStyles}
+        className="shadow-lg"
       />
     </div>
   );

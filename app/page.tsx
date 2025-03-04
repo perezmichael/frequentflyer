@@ -13,8 +13,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <header className="bg-white p-4 shadow">
-        <h1 className="text-2xl font-bold">Coffee Shop Guide</h1>
+      <header className="bg-blue-500 p-4 shadow fixed top-0 w-full z-10">
+        <h1 className="text-white text-4xl font-bold animate-pulse">Coffee Shop Guide</h1>
         <input
           type="text"
           placeholder="Search restaurants..."
@@ -24,34 +24,38 @@ export default function Home() {
         />
       </header>
 
-      <main className="p-4">
-  <section className="grid md:grid-cols-2 gap-4 min-h-[500px]">
-    <div>
-      <h2 className="text-xl font-semibold mb-2">Top Pickzzzz</h2>
-      <ul className="space-y-2">
-        {filteredRestaurants.map((restaurant) => (
-          <li key={restaurant.id} className="p-4 bg-white rounded shadow">
-            <h3 className="font-bold text-lg mb-2">{restaurant.name}</h3>
-            <p>{restaurant.cuisine} • Rating: {restaurant.rating || "N/A"}</p>
-            <div className="flex gap-4">
-              <div className="w-24 h-24 bg-gray-200 rounded flex-shrink-0 overflow-hidden">
-                <img 
-                  src={restaurant.image} 
-                  alt={restaurant.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              
+      <main className="mt-32">
+        <div className="flex">
+          <div className="w-1/2 h-[calc(100vh-8rem)] overflow-y-auto">
+            <div className="p-4">
+              <ul className="space-y-6">
+                {filteredRestaurants.map((restaurant) => (
+                  <li 
+                    key={restaurant.id} 
+                    className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden"
+                  >
+                    <div className="w-full h-48 overflow-hidden">
+                      <img 
+                        src={restaurant.image} 
+                        alt={restaurant.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="p-5">
+                      <h3 className="font-bold text-xl mb-2">{restaurant.name}</h3>
+                      <p className="text-gray-600">{restaurant.cuisine} • Rating: {restaurant.rating || "N/A"}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-    <div className="h-full w-full">
-      <Map restaurants={filteredRestaurants} />
-    </div>
-  </section>
-</main>
+          </div>
+
+          <div className="w-1/2 fixed right-0 top-32 bottom-0 pr-4">
+            <Map restaurants={filteredRestaurants} />
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
