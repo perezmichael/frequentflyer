@@ -27,7 +27,7 @@ export default function Home() {
       <main className="p-4">
   <section className="grid md:grid-cols-2 gap-4 min-h-[500px]">
     <div>
-      <h2 className="text-xl font-semibold mb-2">Top Picks</h2>
+      <h2 className="text-xl font-semibold mb-2">Top Pickzzzz</h2>
       <ul className="space-y-2">
         {filteredRestaurants.map((restaurant) => (
           <li key={restaurant.id} className="p-4 bg-white rounded shadow">
