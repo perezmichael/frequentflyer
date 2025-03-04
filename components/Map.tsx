@@ -24,7 +24,7 @@ const mapStyles = {
   left: 0,
   width: '100%',
   height: '100%',
-  textRendering: 'optimizelegibility',
+  textRendering: 'optimizeLegibility',
   fontSize: '106.666666666%',
   WebkitFontSmoothing: 'auto',
   borderRadius: '0.75rem',
