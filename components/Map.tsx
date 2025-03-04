@@ -8,6 +8,8 @@ interface Restaurant {
   lat: number;
   lng: number;
   rating?: number;
+  cuisine: string;
+  image: string;
 }
 
 interface MapProps {

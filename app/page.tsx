@@ -31,8 +31,18 @@ export default function Home() {
       <ul className="space-y-2">
         {filteredRestaurants.map((restaurant) => (
           <li key={restaurant.id} className="p-4 bg-white rounded shadow">
-            <h3 className="font-bold">{restaurant.name}</h3>
-            <p>{restaurant.cuisine} • Rating: ${restaurant.rating || "N/A"}</p>
+            <h3 className="font-bold text-lg mb-2">{restaurant.name}</h3>
+            <p>{restaurant.cuisine} • Rating: {restaurant.rating || "N/A"}</p>
+            <div className="flex gap-4">
+              <div className="w-24 h-24 bg-gray-200 rounded flex-shrink-0 overflow-hidden">
+                <img 
+                  src={restaurant.image} 
+                  alt={restaurant.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+            </div>
           </li>
         ))}
       </ul>

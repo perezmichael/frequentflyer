@@ -1,5 +1,7 @@
 [
-    {"id": 1, "name": "Paisita Cafe", "cuisine": "Coffee", "rating": 7.6, "lat": 34.0522, "lng": -118.2437},
-    {"id": 2, "name": "Cafe Bolivar", "cuisine": "Coffee", "rating": 8.1, "lat": 34.0622, "lng": -118.2537},
-    {"id": 3, "name": "Doubting Thomas", "cuisine": "Coffee", "rating": 7.9, "lat": 34.0422, "lng": -118.2337}
+    {"id": 1, "name": "Blue Bottle Coffee", "cuisine": "Coffee & Tea", "rating": 4.5, "lat": 34.0371, "lng": -118.2412, "image": "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2FmZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"},
+    {"id": 2, "name": "Verve Coffee Roasters", "cuisine": "Coffee & Tea", "rating": 4.7, "lat": 34.0455, "lng": -118.2334, "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y2FmZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"},
+    {"id": 3, "name": "Intelligentsia Coffee", "cuisine": "Coffee & Tea", "rating": 4.6, "lat": 34.0392, "lng": -118.2516, "image": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FmZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"},
+    {"id": 4, "name": "Stumptown Coffee Roasters", "cuisine": "Coffee & Tea", "rating": 4.8, "lat": 34.0505, "lng": -118.2478, "image": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Y2FmZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"},
+    {"id": 5, "name": "G&B Coffee", "cuisine": "Coffee & Tea", "rating": 4.4, "lat": 34.0505, "lng": -118.2478, "image": "https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Y2FmZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"}
   ]
