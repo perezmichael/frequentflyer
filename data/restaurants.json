@@ -1,0 +1,5 @@
+[
+    {"id": 1, "name": "Paisita Cafe", "cuisine": "Coffee", "rating": 7.6, "lat": 34.0522, "lng": -118.2437},
+    {"id": 2, "name": "Cafe Bolivar", "cuisine": "Coffee", "rating": 8.1, "lat": 34.0622, "lng": -118.2537},
+    {"id": 3, "name": "Doubting Thomas", "cuisine": "Coffee", "rating": 7.9, "lat": 34.0422, "lng": -118.2337}
+  ]
