@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Map from "../components/Map";
 
 async function getCoffeeShops() {
-  const res = await fetch("http://localhost:3000/api/coffee-shops", {
+  const res = await fetch("/api/coffee-shops", {
     cache: "no-store", // Disable caching to see fresh data
   });
   if (!res.ok) {
@@ -15,9 +15,41 @@ async function getCoffeeShops() {
   return data;
 }
 
+interface CoffeeShop {
+  id: number;
+  name: string;
+  image: string;
+  cuisine: string;
+  rating?: number; // Optional property
+  lat?: number; // Optional latitude
+  lng?: number; // Optional longitude
+}
+
+interface Restaurant {
+  id: number;
+  name: string;
+  image: string;
+  cuisine: string;
+  rating?: number; // Optional property
+  lat: number; // Add latitude property
+  lng: number; // Add longitude property
+}
+
+const mapCoffeeShopsToRestaurants = (coffeeShops: CoffeeShop[]): Restaurant[] => {
+  return coffeeShops.map(coffeeShop => ({
+    id: coffeeShop.id,
+    name: coffeeShop.name,
+    image: coffeeShop.image,
+    cuisine: coffeeShop.cuisine,
+    rating: coffeeShop.rating,
+    lat: coffeeShop.lat || 0, // Replace with actual lat value
+    lng: coffeeShop.lng || 0  // Replace with actual lng value
+  }));
+};
+
 export default function Home() {
   const [search, setSearch] = useState("");
-  const [coffeeShops, setCoffeeShops] = useState([]);
+  const [coffeeShops, setCoffeeShops] = useState<CoffeeShop[]>([]);
 
   useEffect(() => {
     getCoffeeShops()
@@ -32,6 +64,8 @@ export default function Home() {
   const filteredCoffeeShops = coffeeShops.filter((r) =>
     r.name.toLowerCase().includes(search.toLowerCase())
   );
+
+  const restaurants = mapCoffeeShopsToRestaurants(filteredCoffeeShops);
 
   console.log("Rendering with coffee shops:", coffeeShops);
 
@@ -78,7 +112,7 @@ export default function Home() {
           </div>
 
           <div className="w-1/2 fixed right-0 top-32 bottom-0 pr-4">
-            <Map restaurants={filteredCoffeeShops} />
+            <Map restaurants={restaurants} />
           </div>
         </div>
       </main>
