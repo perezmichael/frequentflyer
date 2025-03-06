@@ -1,17 +1,26 @@
-import { prisma } from '@/lib/prisma'
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL,
+    },
+  },
+  log: ["query", "info", "warn", "error"], // Detailed logging
+});
 
 export async function GET() {
   try {
-    console.log('Fetching coffee shops...')
-    const coffeeShops = await prisma.coffeeShop.findMany()
-    console.log('Found coffee shops:', coffeeShops)
-    return NextResponse.json(coffeeShops)
+    console.log("DATABASE_URL:", process.env.DATABASE_URL); // Log the URL
+    console.log("Fetching coffee shops...");
+    const coffeeShops = await prisma.coffeeShop.findMany();
+    console.log("Fetched coffee shops:", coffeeShops);
+    return NextResponse.json(coffeeShops);
   } catch (error) {
-    console.error('Error fetching coffee shops:', error)
-    return NextResponse.json(
-      { error: 'Error fetching coffee shops' },
-      { status: 500 }
-    )
+    console.error("Detailed error fetching coffee shops:", error);
+    return NextResponse.json({ error: "Failed to fetch coffee shops", details: error.message }, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
-} 
+}
