@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:gpz8zhg3zja3jpc-TRM@db.wnctowqvjmmkivptmgfr.supabase.co:5432/postgres"
+  url      = "postgresql://postgres:FrequentFlyer2025@db.wnctowqvjmmkivptmgfr.supabase.co:5432/postgres"
 }
 
 model Restaurant {
