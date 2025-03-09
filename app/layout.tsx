@@ -1,12 +1,12 @@
-import { Inter } from 'next/font/google'
 import './globals.css'
-import ClientLayout from './ClientLayout'
+import { Inter } from 'next/font/google'
+import { Metadata } from 'next'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
-  title: 'Coffee Shop Guide',
-  description: 'Find the best coffee shops in LA',
+export const metadata: Metadata = {
+  title: 'Frequent Flyer - Discover Local Events',
+  description: 'Find and explore local events in your area.',
 }
 
 export default function RootLayout({
@@ -16,8 +16,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <ClientLayout>{children}</ClientLayout>
+      <body className={`${inter.className} bg-[#E9E3D7] min-h-screen`}>
+        {children}
       </body>
     </html>
   )

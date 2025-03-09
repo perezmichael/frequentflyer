@@ -1,12 +1,26 @@
-import Navbar from './Navbar';
+import './globals.css';
+import { Inter } from 'next/font/google';
+import { Metadata } from 'next';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
+  title: 'Frequent Flyer - Discover Local Events',
+  description: 'Find and explore local events in your area.',
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      <Navbar />
-      <main className="flex-grow pt-16">
-        {children}
-      </main>
-    </div>
+    <html lang="en">
+      <body className={`${inter.className} bg-[#E9E3D7] min-h-screen`}>
+        <div className="pt-28">
+          {children}
+        </div>
+      </body>
+    </html>
   );
-} 
+}
