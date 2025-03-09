@@ -4,71 +4,63 @@ import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import { useState, useEffect } from 'react';
 import Map from '../components/Map';
-import SignUp from '../../components/SignUp';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import PlaceholderImage from '../components/PlaceholderImage';
+
+// Sample coffee shops data with Unsplash images
+const sampleCoffeeShops = [
+  {
+    id: 1,
+    name: "Verve Coffee Roasters",
+    image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+    cuisine: "Coffee & Pastries",
+    rating: 4.7,
+    lat: 34.0522,
+    lng: -118.2437
+  },
+  {
+    id: 2,
+    name: "Blue Bottle Coffee",
+    image: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+    cuisine: "Specialty Coffee",
+    rating: 4.5,
+    lat: 34.0610,
+    lng: -118.2370
+  },
+  {
+    id: 3,
+    name: "Intelligentsia Coffee",
+    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+    cuisine: "Coffee & Breakfast",
+    rating: 4.6,
+    lat: 34.0505,
+    lng: -118.2500
+  },
+  {
+    id: 4,
+    name: "Stumptown Coffee Roasters",
+    image: "https://images.unsplash.com/photo-1498804103079-a6351b050096?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+    cuisine: "Coffee & Light Bites",
+    rating: 4.4,
+    lat: 34.0480,
+    lng: -118.2600
+  }
+];
 
 async function getCoffeeShops() {
-  try {
-    const res = await fetch("/api/coffee-shops");
-    
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.error || "Failed to fetch coffee shops");
-    }
-    
-    return res.json();
-  } catch (error) {
-    console.error("Error fetching coffee shops:", error);
-    throw error;
-  }
+  // Normally this would fetch from an API, but for now we'll use sample data
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(sampleCoffeeShops);
+    }, 500);
+  });
 }
-
-interface CoffeeShop {
-  id: number;
-  name: string;
-  image: string;
-  cuisine: string;
-  rating?: number; // Optional property
-  lat?: number; // Optional latitude
-  lng?: number; // Optional longitude
-}
-
-interface Restaurant {
-  id: number;
-  name: string;
-  image: string;
-  cuisine: string;
-  rating?: number; // Optional property
-  lat: number; // Add latitude property
-  lng: number; // Add longitude property
-}
-
-const mapCoffeeShopsToRestaurants = (coffeeShops: CoffeeShop[]): Restaurant[] => {
-  return coffeeShops.map(coffeeShop => ({
-    id: coffeeShop.id,
-    name: coffeeShop.name,
-    image: coffeeShop.image,
-    cuisine: coffeeShop.cuisine,
-    rating: coffeeShop.rating,
-    lat: coffeeShop.lat || 0, // Replace with actual lat value
-    lng: coffeeShop.lng || 0  // Replace with actual lng value
-  }));
-};
 
 export default function Home() {
   const { user, loading: authLoading } = useAuth();
   const [search, setSearch] = useState("");
-  const [coffeeShops, setCoffeeShops] = useState<CoffeeShop[]>([]);
+  const [coffeeShops, setCoffeeShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user && !authLoading) {
-      router.push('/');
-    }
-  }, [user, authLoading, router]);
 
   useEffect(() => {
     setLoading(true);
@@ -83,6 +75,10 @@ export default function Home() {
         setLoading(false);
       });
   }, []);
+
+  const handleSearch = (query: string) => {
+    setSearch(query);
+  };
 
   const filteredCoffeeShops = coffeeShops.filter((r) =>
     r.name?.toLowerCase().includes(search.toLowerCase())
@@ -99,13 +95,9 @@ export default function Home() {
     lng: coffeeShop.lng || 0
   }));
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar />
+      <Navbar onSearch={handleSearch} />
       
       <main className="container mx-auto pt-24 px-4">
         {authLoading ? (
@@ -114,15 +106,6 @@ export default function Home() {
           <div>
             <div className="flex justify-between items-center mb-8">
               <h1 className="text-3xl font-bold">Coffee Shop Guide</h1>
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search coffee shops..."
-                  className="px-4 py-2 border rounded-full w-64"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </div>
             </div>
 
             {loading ? (
@@ -130,8 +113,8 @@ export default function Home() {
             ) : error ? (
               <p className="text-center text-red-500">{error}</p>
             ) : (
-              <div className="flex">
-                <div className="w-1/2 pr-4">
+              <div className="flex flex-col md:flex-row">
+                <div className="w-full md:w-1/2 pr-0 md:pr-4 mb-8 md:mb-0">
                   {filteredCoffeeShops.length === 0 ? (
                     <p className="text-center">No coffee shops found.</p>
                   ) : (
@@ -142,14 +125,25 @@ export default function Home() {
                           className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden"
                         >
                           <div className="w-full h-48 overflow-hidden">
-                            <img
-                              src={coffeeShop.image || "/placeholder.jpg"}
-                              alt={coffeeShop.name || "Coffee Shop"}
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                e.currentTarget.src = "/placeholder.jpg";
-                              }}
-                            />
+                            {coffeeShop.image ? (
+                              <img
+                                src={coffeeShop.image}
+                                alt={coffeeShop.name || "Coffee Shop"}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                  const placeholder = document.createElement('div');
+                                  placeholder.className = "w-full h-full";
+                                  const placeholderComponent = document.createElement('div');
+                                  placeholderComponent.className = "bg-gray-200 flex items-center justify-center w-full h-full";
+                                  placeholderComponent.innerHTML = `<svg class="w-12 h-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="currentColor" viewBox="0 0 640 512"><path d="M480 80C480 35.82 515.8 0 560 0C604.2 0 640 35.82 640 80C640 124.2 604.2 160 560 160C515.8 160 480 124.2 480 80zM0 456.1C0 445.6 2.964 435.3 8.551 426.4L225.3 81.01C231.9 70.42 243.5 64 256 64C268.5 64 280.1 70.42 286.8 81.01L412.7 281.7L460.9 202.7C464.1 196.1 472.2 192 480 192C487.8 192 495 196.1 499.1 202.7L631.1 419.1C636.9 428.6 640 439.7 640 450.9C640 484.6 612.6 512 578.9 512H55.91C25.03 512 .0006 486.1 .0006 456.1L0 456.1z" /></svg>`;
+                                  placeholder.appendChild(placeholderComponent);
+                                  e.currentTarget.parentElement.appendChild(placeholder);
+                                }}
+                              />
+                            ) : (
+                              <PlaceholderImage />
+                            )}
                           </div>
                           <div className="p-5">
                             <h3 className="font-bold text-xl mb-2">{coffeeShop.name || "Unknown"}</h3>
@@ -163,7 +157,7 @@ export default function Home() {
                   )}
                 </div>
 
-                <div className="w-1/2 fixed right-0 top-32 bottom-0 pr-4">
+                <div className="w-full md:w-1/2 md:sticky md:top-32 md:self-start h-[500px]">
                   <Map restaurants={restaurants} />
                 </div>
               </div>
