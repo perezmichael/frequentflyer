@@ -1,72 +1,71 @@
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 import Image from 'next/image';
+import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-[#E9E3D7] shadow-lg' : 'bg-[#E9E3D7]'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <nav className="bg-[#E9E3D7] shadow-md fixed top-0 left-0 right-0 z-10 flex items-center" style={{ height: '80px' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <Link href="/" className="flex items-center">
-                <Image 
-                  src="/frequent-flyer-logo.png" 
-                  alt="Frequent Flyer Logo" 
-                  width={96} 
-                  height={50} 
-                  className="h-8 w-auto"
+            <Link href="/" className="flex-shrink-0 flex items-center">
+              <div style={{ width: '240px', height: '60px', position: 'relative' }}>
+                <Image
+                  src="/images/ffsvg.svg"
+                  alt="Frequent Flyer Logo"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  priority
                 />
-              </Link>
-            </div>
+              </div>
+            </Link>
           </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <Link href="/" className={`uppercase px-3 py-2 rounded-md text-[20px] font-medium text-[#181B22] hover:text-[#181B22]/80`}>
-                Home
-              </Link>
-              <Link href="/events" className={`uppercase px-3 py-2 rounded-md text-[20px] font-medium text-[#181B22] hover:text-[#181B22]/80`}>
-                Events
-              </Link>
-              <Link href="/submit-event" className={`uppercase px-3 py-2 rounded-md text-[20px] font-medium text-[#181B22] hover:text-[#181B22]/80`}>
-                Submit Event
-              </Link>
-              <Link href="/submit-event" className={`uppercase px-3 py-2 rounded-md text-[20px] font-medium text-[#181B22] hover:text-[#181B22]/80`}>
+          
+          <div className="hidden md:flex items-center space-x-8">
+            <Link href="/events" className="text-gray-900 hover:text-gray-600 text-2xl font-medium uppercase">
+              Events
+            </Link>
+            <Link href="/submit-event" className="text-gray-900 hover:text-gray-600 text-2xl font-medium uppercase">
+              Submit Event
+            </Link>
+            <a 
+              href="https://frequentflyer.beehiiv.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-gray-900 hover:text-gray-600 text-2xl font-medium uppercase"
+            >
+              Newsletter
+            </a>
+            {user ? (
+              <button 
+                onClick={signOut}
+                className="text-gray-900 hover:text-gray-600 text-2xl font-medium uppercase"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <Link href="/signin" className="text-gray-900 hover:text-gray-600 text-2xl font-medium uppercase">
                 Sign In
               </Link>
-             
-            </div>
+            )}
           </div>
-          <div className="-mr-2 flex md:hidden">
+          
+          <div className="md:hidden flex items-center">
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-[#181B22] hover:text-[#181B22]/80 hover:bg-[#E9E3D7]/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#E9E3D7] focus:ring-[#181B22]"
-              aria-controls="mobile-menu"
+              onClick={toggleMenu}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
               aria-expanded="false"
             >
               <span className="sr-only">Open main menu</span>
-              {!isOpen ? (
+              {!isMenuOpen ? (
                 <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -79,25 +78,36 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-
-      {isOpen && (
-        <div className="md:hidden bg-[#E9E3D7]" id="mobile-menu">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link href="/" className={`uppercase block px-3 py-2 rounded-md text-[24px] font-medium text-[#181B22] hover:text-[#181B22]/80`}>
-              Home
-            </Link>
-            <Link href="/events" className={`uppercase block px-3 py-2 rounded-md text-[24px] font-medium text-[#181B22] hover:text-[#181B22]/80`}>
+      
+      {isMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-[#E9E3D7] shadow-md">
+            <Link href="/events" className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-gray-600 hover:bg-gray-50 uppercase">
               Events
             </Link>
-            <Link href="/submit-event" className={`uppercase block px-3 py-2 rounded-md text-[24px] font-medium text-[#181B22] hover:text-[#181B22]/80`}>
+            <Link href="/submit-event" className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-gray-600 hover:bg-gray-50 uppercase">
               Submit Event
             </Link>
-            <Link href="/about" className={`uppercase block px-3 py-2 rounded-md text-[24px] font-medium text-[#181B22] hover:text-[#181B22]/80`}>
-              About
-            </Link>
-            <Link href="/contact" className={`uppercase block px-3 py-2 rounded-md text-[24px] font-medium text-[#181B22] hover:text-[#181B22]/80`}>
-              Contact
-            </Link>
+            <a 
+              href="https://frequentflyer.beehiiv.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-gray-600 hover:bg-gray-50 uppercase"
+            >
+              Newsletter
+            </a>
+            {user ? (
+              <button 
+                onClick={signOut}
+                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-gray-600 hover:bg-gray-50 uppercase"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <Link href="/signin" className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-gray-600 hover:bg-gray-50 uppercase">
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       )}

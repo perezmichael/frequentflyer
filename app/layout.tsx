@@ -1,12 +1,13 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import { Metadata } from 'next'
+import { AuthProvider } from '../context/AuthContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Frequent Flyer - Discover Local Events',
-  description: 'Find and explore local events in your area.',
+  title: 'Asheville Events',
+  description: 'Discover events happening in Asheville, NC',
 }
 
 export default function RootLayout({
@@ -17,7 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-[#E9E3D7] min-h-screen`}>
-        {children}
+        <AuthProvider>
+          <div className="pt-20">
+            {children}
+          </div>
+        </AuthProvider>
       </body>
     </html>
   )
