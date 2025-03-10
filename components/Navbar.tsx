@@ -1,11 +1,14 @@
+"use client";
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import UserMenu from './UserMenu';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -19,7 +22,7 @@ export default function Navbar() {
             <Link href="/" className="flex-shrink-0 flex items-center">
               <div style={{ width: '240px', height: '60px', position: 'relative' }}>
                 <Image
-                  src="/images/ffsvg.svg"
+                  src="/images/FFMainLogo.png"
                   alt="Frequent Flyer Logo"
                   fill
                   style={{ objectFit: 'contain' }}
@@ -44,21 +47,11 @@ export default function Navbar() {
             >
               Newsletter
             </a>
-            {user ? (
-              <button 
-                onClick={signOut}
-                className="text-gray-900 hover:text-gray-600 text-2xl font-medium uppercase"
-              >
-                Sign Out
-              </button>
-            ) : (
-              <Link href="/signin" className="text-gray-900 hover:text-gray-600 text-2xl font-medium uppercase">
-                Sign In
-              </Link>
-            )}
+            <UserMenu />
           </div>
           
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center space-x-4">
+            <UserMenu />
             <button
               onClick={toggleMenu}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
@@ -96,18 +89,6 @@ export default function Navbar() {
             >
               Newsletter
             </a>
-            {user ? (
-              <button 
-                onClick={signOut}
-                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-gray-600 hover:bg-gray-50 uppercase"
-              >
-                Sign Out
-              </button>
-            ) : (
-              <Link href="/signin" className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-gray-600 hover:bg-gray-50 uppercase">
-                Sign In
-              </Link>
-            )}
           </div>
         </div>
       )}

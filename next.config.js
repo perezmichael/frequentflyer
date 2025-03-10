@@ -1,9 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
   images: {
-    domains: ['wnctowqvjmmkivptmgfr.supabase.co'],
+    domains: [
+      'wnctowqvjmmkivptmgfr.supabase.co',
+      'lh3.googleusercontent.com'
+    ],
     remotePatterns: [
       {
         protocol: 'https',
@@ -11,11 +12,14 @@ const nextConfig = {
         port: '',
         pathname: '/storage/v1/object/public/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
-  },
-  experimental: {
-    serverActions: true,
-  },
+  }
 }
 
 module.exports = nextConfig 
